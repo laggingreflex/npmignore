@@ -2,6 +2,7 @@
 
 'use strict';
 
+var os = require('os');
 var fs = require('fs');
 var path = require('path');
 var log = require('verbalize');
@@ -50,6 +51,9 @@ log.success('  Done.');
 function read(fp) {
   if (fp.indexOf(',') > -1) {
     return fp.split(/,/g).map(read).join('\n');
+  }
+  if (fp.charAt(0) === '~') {
+    fp = path.join(os.homedir(), fp.slice(1))
   }
   if (!path.isAbsolute(fp)) {
     fp = path.join(process.cwd(), fp);
